@@ -9,9 +9,11 @@
 </head>
 <body>
 <div root></div>
+<input type="text" id="inputbox" placeholder="skriv en besked ud til alle"/>
 <button id="sendMessage">Send besked til server</button>
 <script>
     const root = document.getElementById("root");
+    const inputbox = document.getElementById("inputbox");
     const btn = document.getElementById("sendMessage");
 
     const protocol = location.protocol === "https:" ? "wss:" : "ws:";
@@ -27,10 +29,15 @@
     socket.addEventListener("message", (event)=>{
         const data = event.data;
         console.log(data);
+        return false;
     });
+
     btn.addEventListener("click", evt=>{
-        socket.send("Hej Server! Hvordan går det?");
+        const message = inputbox.value;
+        socket.send(message);
     })
+
+
 
 </script>
 </body>
