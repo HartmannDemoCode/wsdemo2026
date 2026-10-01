@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WS client</title>
+</head>
+<body>
+<div root></div>
+<button id="sendMessage">Send besked til server</button>
+<script>
+    const root = document.getElementById("root");
+    const btn = document.getElementById("sendMessage");
+
+    const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+    const socket = new WebSocket(`${protocol}//${location.host}/ws/dice`);
+    socket.addEventListener("open", () => {
+        console.log("Opened");
+    });
+
+    socket.addEventListener("close", () => {
+        console.log("Closed");
+    });
+
+    socket.addEventListener("message", (event)=>{
+        const data = event.data;
+        console.log(data);
+    });
+    btn.addEventListener("click", evt=>{
+        socket.send("Hej Server! Hvordan går det?");
+    })
+
+</script>
+</body>
+</html>
